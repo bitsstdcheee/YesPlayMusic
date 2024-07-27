@@ -10,7 +10,7 @@
           <div class="title">{{ rightClickedTrackComputed.name }}</div>
           <div class="subtitle">{{ rightClickedTrackComputed.ar[0].name }}</div>
           <div class="subtitle" style="font-size: 11px">
-            {{ rightClickedTrackComputed.comment_count }} 评论
+            {{ comment_count }} 评论
           </div>
         </div>
       </div>
@@ -155,6 +155,7 @@ export default {
         al: { picUrl: '' },
       },
       rightClickedTrackIndex: -1,
+      comment_count: 0,
       listStyles: {},
     };
   },
@@ -187,17 +188,12 @@ export default {
     ...mapMutations(['updateModal']),
     ...mapActions(['nextTrack', 'showToast', 'likeATrack']),
     async openMenu(e, track, index = -1) {
+      await getCommentCount(track.id).then(data => {
+        this.comment_count = data;
+      });
       this.rightClickedTrack = track;
-      if (!this.rightClickedTrack.comment_count) {
-        await getCommentCount(track.id).then(data => {
-          this.rightClickedTrack.comment_count = data;
-          this.rightClickedTrackIndex = index;
-          this.$refs.menu.openMenu(e);
-        });
-      } else {
-        this.rightClickedTrackIndex = index;
-        this.$refs.menu.openMenu(e);
-      }
+      this.rightClickedTrackIndex = index;
+      this.$refs.menu.openMenu(e);
     },
     closeMenu() {
       this.rightClickedTrack = {
@@ -206,6 +202,7 @@ export default {
         ar: [{ name: '' }],
         al: { picUrl: '' },
       };
+      this.comment_count = 0;
       this.rightClickedTrackIndex = -1;
     },
     playThisList(trackID) {
