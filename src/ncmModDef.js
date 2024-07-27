@@ -614,4 +614,14 @@ module.exports = [
     route: '/activate/init/profile',
     module: require('NeteaseCloudMusicApi/module/activate_init_profile'),
   },
+  {
+    identifier: 'comment_music',
+    route: '/comment/music',
+    module: require('NeteaseCloudMusicApi/module/comment_music'),
+  },
+  {
+    identifier: 'inner_version',
+    route: '/inner/version',
+    module: require('NeteaseCloudMusicApi/module/inner_version'),
+  },
 ];

@@ -69,6 +69,24 @@ export function getTrackDetail(ids) {
 }
 
 /**
+ * 获取歌曲评论数量
+ * 说明 : 调用此接口 , 传入音乐 id 可获得对应评论数量
+ * @param {number} id - 音乐 id
+ */
+export function getCommentCount(id) {
+  return request({
+    url: '/comment/music',
+    method: 'get',
+    params: {
+      id: id,
+      limit: 1,
+    },
+  }).then(data => {
+    return data.total;
+  });
+}
+
+/**
  * 获取歌词
  * 说明 : 调用此接口 , 传入音乐 id 可获得对应音乐的歌词 ( 不需要登录 )
  * @param {number} id - 音乐 id

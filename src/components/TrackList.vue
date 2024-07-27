@@ -9,6 +9,9 @@
         <div class="info">
           <div class="title">{{ rightClickedTrackComputed.name }}</div>
           <div class="subtitle">{{ rightClickedTrackComputed.ar[0].name }}</div>
+          <div class="subtitle" style="font-size: 11px">
+            {{ rightClickedTrackComputed.comment_count }} 评论
+          </div>
         </div>
       </div>
       <hr v-show="type !== 'cloudDisk'" />
@@ -78,6 +81,7 @@
 import { mapActions, mapMutations, mapState } from 'vuex';
 import { addOrRemoveTrackFromPlaylist } from '@/api/playlist';
 import { cloudDiskTrackDelete } from '@/api/user';
+import { getCommentCount } from '@/api/track';
 import { isAccountLoggedIn } from '@/utils/auth';
 
 import TrackListItem from '@/components/TrackListItem.vue';
@@ -182,10 +186,18 @@ export default {
   methods: {
     ...mapMutations(['updateModal']),
     ...mapActions(['nextTrack', 'showToast', 'likeATrack']),
-    openMenu(e, track, index = -1) {
+    async openMenu(e, track, index = -1) {
       this.rightClickedTrack = track;
-      this.rightClickedTrackIndex = index;
-      this.$refs.menu.openMenu(e);
+      if (!this.rightClickedTrack.comment_count) {
+        await getCommentCount(track.id).then(data => {
+          this.rightClickedTrack.comment_count = data;
+          this.rightClickedTrackIndex = index;
+          this.$refs.menu.openMenu(e);
+        });
+      } else {
+        this.rightClickedTrackIndex = index;
+        this.$refs.menu.openMenu(e);
+      }
     },
     closeMenu() {
       this.rightClickedTrack = {

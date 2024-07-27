@@ -152,8 +152,8 @@ hr {
   color: var(--color-text);
   cursor: default;
   img {
-    height: 38px;
-    width: 38px;
+    height: 52px;
+    width: 52;
     border-radius: 4px;
   }
   .info {
