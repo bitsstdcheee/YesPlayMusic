@@ -65,6 +65,8 @@
       <div></div>
     </div>
 
+    <RoundedProgressBar :progress="track.pop" />
+
     <div v-if="showLikeButton" class="actions">
       <button @click="likeThisSong">
         <svg-icon
@@ -87,12 +89,13 @@
 <script>
 import ArtistsInLine from '@/components/ArtistsInLine.vue';
 import ExplicitSymbol from '@/components/ExplicitSymbol.vue';
+import RoundedProgressBar from '@/components/RoundedProgressBar.vue';
 import { mapState } from 'vuex';
 import { isNil } from 'lodash';
 
 export default {
   name: 'TrackListItem',
-  components: { ArtistsInLine, ExplicitSymbol },
+  components: { ArtistsInLine, ExplicitSymbol, RoundedProgressBar },
 
   props: {
     trackProp: Object,
