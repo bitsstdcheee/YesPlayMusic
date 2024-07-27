@@ -65,7 +65,7 @@
       <div></div>
     </div>
 
-    <RoundedProgressBar :progress="track.pop" />
+    <RoundedProgressBar v-if="showPop && !isPlaying" :progress="track.pop" />
 
     <div v-if="showLikeButton" class="actions">
       <button @click="likeThisSong">
@@ -153,6 +153,7 @@ export default {
       }
     },
     type() {
+      console.log(this.$parent.type);
       return this.$parent.type;
     },
     isAlbum() {
@@ -208,6 +209,13 @@ export default {
     },
     showTrackTime() {
       return this.type !== 'tracklist';
+    },
+    showPop() {
+      return (
+        this.type === 'album' ||
+        this.type === 'tracklist' ||
+        this.type === 'playlist'
+      );
     },
   },
 
