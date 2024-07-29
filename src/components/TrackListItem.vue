@@ -211,11 +211,7 @@ export default {
       return this.type !== 'tracklist';
     },
     showPop() {
-      return (
-        this.type === 'album' ||
-        this.type === 'tracklist' ||
-        this.type === 'playlist'
-      );
+      return this.type === 'album' || this.type === 'playlist';
     },
   },
 
