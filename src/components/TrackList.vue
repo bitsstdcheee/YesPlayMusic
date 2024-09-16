@@ -55,6 +55,9 @@
       <div v-show="type !== 'cloudDisk'" class="item" @click="copyLink">{{
         $t('contextMenu.copyUrl')
       }}</div>
+      <div v-show="type !== 'cloudDisk'" class="item" @click="openLink">
+        打开歌曲链接
+      </div>
       <div
         v-if="extraContextMenuItem.includes('removeTrackFromCloudDisk')"
         class="item"
@@ -87,6 +90,7 @@ import { isAccountLoggedIn } from '@/utils/auth';
 import TrackListItem from '@/components/TrackListItem.vue';
 import ContextMenu from '@/components/ContextMenu.vue';
 import locale from '@/locale';
+import { shell } from 'electron';
 
 export default {
   name: 'TrackList',
@@ -291,6 +295,11 @@ export default {
         .catch(err => {
           this.showToast(`${locale.t('toast.copyFailed')}${err}`);
         });
+    },
+    openLink() {
+      shell.openExternal(
+        `https://music.163.com/#/song?id=${this.rightClickedTrack.id}#comment-box`
+      );
     },
     removeTrackFromQueue() {
       this.$store.state.player.removeTrackFromQueue(
